@@ -5,6 +5,7 @@ import com.ivan.third_homework.dto.DepartmentDTONew;
 import com.ivan.third_homework.entity.Department;
 import com.ivan.third_homework.mapper.DepartmentMapper;
 import com.ivan.third_homework.repository.DepartmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     DepartmentRepository departmentRepository;
     DepartmentMapper departmentMapper;
 
+    @Autowired
     public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapper mapper) {
         this.departmentRepository = departmentRepository;
         this.departmentMapper = mapper;

@@ -20,9 +20,6 @@ public class Employees {
     private int workExp;
     @Column(name = "salary")
     private int salary;
-    @Column(name = "department_id")
-    private int departmentID;
-
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
@@ -36,22 +33,20 @@ public class Employees {
     public Employees() {
     }
 
-    public Employees(Long id, String name, String surname, int workExp, int salary, int departmentID, Department department) {
+    public Employees(Long id, String name, String surname, int workExp, int salary, Department department) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.workExp = workExp;
         this.salary = salary;
-        this.departmentID = departmentID;
         this.department = department;
     }
 
-    public Employees(String name, String surname, int workExp, int salary, int departmentID, Department department) {
+    public Employees(String name, String surname, int workExp, int salary, Department department) {
         this.name = name;
         this.surname = surname;
         this.workExp = workExp;
         this.salary = salary;
-        this.departmentID = departmentID;
         this.department = department;
     }
 
@@ -95,14 +90,6 @@ public class Employees {
         this.salary = salary;
     }
 
-    public int getDepartmentID() {
-        return departmentID;
-    }
-
-    public void setDepartmentID(int departmentID) {
-        this.departmentID = departmentID;
-    }
-
     public Department getDepartment() {
         return department;
     }
@@ -127,7 +114,6 @@ public class Employees {
                 ", surname='" + surname + '\'' +
                 ", workExp=" + workExp +
                 ", salary=" + salary +
-                ", departmentID=" + departmentID +
                 ", department=" + department +
                 ", hobbies=" + hobbies +
                 '}';

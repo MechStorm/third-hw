@@ -1,5 +1,6 @@
 package com.ivan.third_homework.config;
 
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -21,8 +23,8 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
-@ComponentScan("com.ivan.third_homework")
 @EnableWebMvc
+@ComponentScan("com.ivan.third_homework.*")
 @EnableJpaRepositories("com.ivan.third_homework.repository")
 public class AppConfig {
 
@@ -36,7 +38,6 @@ public class AppConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
         dataSource.setDriverClassName(env.getRequiredProperty("driverClass"));
         dataSource.setUrl(env.getRequiredProperty("jdbcUrl"));
         dataSource.setUsername(env.getRequiredProperty("user"));
@@ -55,22 +56,22 @@ public class AppConfig {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan("com.ivan.third_homework.entity");
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setDataSource(dataSource());
+        emf.setPackagesToScan("com.ivan.third_homework.entity");
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        entityManagerFactoryBean.setJpaProperties(properties());
+        emf.setJpaVendorAdapter(vendorAdapter);
+        emf.setJpaProperties(properties());
 
-        return entityManagerFactoryBean;
+        return emf;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
 
         return transactionManager;
     }

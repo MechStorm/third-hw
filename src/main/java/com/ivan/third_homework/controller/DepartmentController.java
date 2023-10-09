@@ -22,7 +22,7 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
         List<DepartmentDTO> departments = departmentService.getAll();
         return new ResponseEntity<>(departments, HttpStatus.OK);
