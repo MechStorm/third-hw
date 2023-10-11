@@ -7,6 +7,7 @@ import com.ivan.third_homework.mapper.DepartmentMapper;
 import com.ivan.third_homework.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,8 +36,10 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
+    @Transactional
     public DepartmentDTO create(DepartmentDTONew departmentDTONew) {
-        return null;
+        Department department = departmentMapper.toEntity(departmentDTONew);
+        return departmentMapper.toDto(departmentRepository.saveAndFlush(department));
     }
 
     @Override

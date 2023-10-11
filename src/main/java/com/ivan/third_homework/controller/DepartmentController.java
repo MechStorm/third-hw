@@ -1,13 +1,10 @@
 package com.ivan.third_homework.controller;
 
 import com.ivan.third_homework.dto.DepartmentDTO;
+import com.ivan.third_homework.dto.DepartmentDTONew;
 import com.ivan.third_homework.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,18 @@ public class DepartmentController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+    public List<DepartmentDTO> getAllDepartments() {
         List<DepartmentDTO> departments = departmentService.getAll();
-        return new ResponseEntity<>(departments, HttpStatus.OK);
+        return departments;
+    }
+
+    @PostMapping
+    public DepartmentDTO createDepartment(@RequestBody DepartmentDTONew departmentDTONew) {
+        System.out.println(departmentDTONew.getName());
+        System.out.println(departmentDTONew.getPhoneNumber());
+        System.out.println(departmentDTONew.getEmail());
+        System.out.println(departmentDTONew.getYearWorks());
+        DepartmentDTO department = departmentService.create(departmentDTONew);
+        return department;
     }
 }
