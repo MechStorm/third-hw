@@ -25,13 +25,26 @@ public class DepartmentController {
         return departments;
     }
 
+    @GetMapping("/{id}")
+    public DepartmentDTO getDepartmentByID(@PathVariable Long id) {
+        DepartmentDTO department = departmentService.getByID(id);
+        return department;
+    }
+
     @PostMapping
     public DepartmentDTO createDepartment(@RequestBody DepartmentDTONew departmentDTONew) {
-        System.out.println(departmentDTONew.getName());
-        System.out.println(departmentDTONew.getPhoneNumber());
-        System.out.println(departmentDTONew.getEmail());
-        System.out.println(departmentDTONew.getYearWorks());
         DepartmentDTO department = departmentService.create(departmentDTONew);
         return department;
+    }
+
+    @PutMapping("/{id}")
+    public DepartmentDTO updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTONew departmentDTONew) {
+        DepartmentDTO department = departmentService.update(id, departmentDTONew);
+        return department;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDepartment(@PathVariable Long id) {
+        departmentService.delete(id);
     }
 }

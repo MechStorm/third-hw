@@ -5,6 +5,7 @@ import com.ivan.third_homework.dto.DepartmentDTONew;
 import com.ivan.third_homework.entity.Department;
 import com.ivan.third_homework.mapper.DepartmentMapper;
 import com.ivan.third_homework.repository.DepartmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DepartmentServiceImpl implements DepartmentService{
+public class DepartmentServiceImpl implements DepartmentService {
 
     DepartmentRepository departmentRepository;
     DepartmentMapper departmentMapper;
@@ -32,7 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public DepartmentDTO getByID(Long id) {
-        return null;
+        return departmentMapper.toDto(departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department not found!")));
     }
 
     @Override
@@ -43,12 +44,17 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
+    @Transactional
     public DepartmentDTO update(Long id, DepartmentDTONew departmentDTONew) {
-        return null;
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department not found!"));
+        Department updateDepartment = departmentMapper.updateDtoToEntity(departmentDTONew, department);
+
+        return departmentMapper.toDto(departmentRepository.saveAndFlush(updateDepartment));
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    @Transactional
+    public void delete(Long id) {
+        departmentRepository.deleteById(id);
     }
 }
