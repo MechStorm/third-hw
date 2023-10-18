@@ -1,11 +1,10 @@
 package com.ivan.third_homework.controller;
 
 import com.ivan.third_homework.dto.EmployeeDTO;
+import com.ivan.third_homework.dto.EmployeeDTONew;
 import com.ivan.third_homework.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,27 @@ public class EmployeeController {
     @GetMapping
     public List<EmployeeDTO> getAllEmployees() {
         return employeeService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public EmployeeDTO getEmployeeByID(@PathVariable Long id) {
+        return employeeService.getByID(id);
+    }
+
+    @PostMapping
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTONew employeeDTONew) {
+        EmployeeDTO employee = employeeService.create(employeeDTONew);
+        return employee;
+    }
+
+    @PutMapping("/{id}")
+    public EmployeeDTO updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTONew employeeDTONew) {
+        EmployeeDTO employee = employeeService.update(id, employeeDTONew);
+        return employee;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmployee(@PathVariable Long id) {
+        employeeService.delete(id);
     }
 }
