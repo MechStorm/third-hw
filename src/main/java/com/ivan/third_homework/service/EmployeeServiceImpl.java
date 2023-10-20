@@ -4,9 +4,11 @@ import com.ivan.third_homework.dto.EmployeeDTO;
 import com.ivan.third_homework.dto.EmployeeDTONew;
 import com.ivan.third_homework.entity.Department;
 import com.ivan.third_homework.entity.Employees;
+import com.ivan.third_homework.entity.Hobbies;
 import com.ivan.third_homework.mapper.EmployeeMapper;
 import com.ivan.third_homework.repository.DepartmentRepository;
 import com.ivan.third_homework.repository.EmployeeRepository;
+import com.ivan.third_homework.repository.HobbiesRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,15 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
     EmployeeRepository employeeRepository;
     DepartmentRepository departmentRepository;
+
+    HobbiesRepository hobbiesRepository;
     EmployeeMapper employeeMapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, EmployeeMapper employeeMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, HobbiesRepository hobbiesRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
+        this.hobbiesRepository = hobbiesRepository;
         this.employeeMapper = employeeMapper;
     }
 
@@ -69,5 +74,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void delete(Long id) {
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void setHobbyToEmployee(Long empID, Long hobbyID) {
+        Employees employee = employeeRepository.findById(empID).orElseThrow(() -> new EntityNotFoundException("Employee not found!"));
+        Hobbies hobby = hobbiesRepository.findById(hobbyID).orElseThrow(() -> new EntityNotFoundException("Hobby not found!"));
+
+        employee.getHobbies().add(hobby);
+        employeeRepository.saveAndFlush(employee);
+    }
+
+    @Override
+    public List<EmployeeDTO> findByHobbyId(Long hobbyID) {
+        List<Employees> employees = employeeRepository.findByHobbyId(hobbyID);
+        return employees.stream().map(employeeMapper::toDto).collect(Collectors.toList());
     }
 }

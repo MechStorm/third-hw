@@ -15,4 +15,8 @@ public interface EmployeeService {
     EmployeeDTO update(Long id, EmployeeDTONew employeeDTONew);
 
     void delete(Long id);
+
+    void setHobbyToEmployee(Long empID, Long hobbyID);
+
+    List<EmployeeDTO> findByHobbyId(Long hobbyID);
 }

@@ -45,4 +45,16 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.delete(id);
     }
+
+    @PutMapping("/{empID}/hobbies/{hobbyID}")
+    public String setHobbyToEmployee(@PathVariable Long empID, @PathVariable Long hobbyID) {
+        employeeService.setHobbyToEmployee(empID, hobbyID);
+        return "Employee with id " + empID + " has hobby with id " + hobbyID;
+    }
+
+    @GetMapping("/hobbies/{hobbyID}")
+    public List<EmployeeDTO> getBooksFromHobbyID(@PathVariable Long hobbyID) {
+        List<EmployeeDTO> employees = employeeService.findByHobbyId(hobbyID);
+        return employees;
+    }
 }

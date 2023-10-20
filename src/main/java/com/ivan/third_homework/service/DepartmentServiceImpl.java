@@ -48,7 +48,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDTO update(Long id, DepartmentDTONew departmentDTONew) {
         Department department = departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department not found!"));
         Department updateDepartment = departmentMapper.updateDtoToEntity(departmentDTONew, department);
-
         return departmentMapper.toDto(departmentRepository.saveAndFlush(updateDepartment));
     }
 
