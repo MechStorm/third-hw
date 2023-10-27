@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "employees")
@@ -117,5 +118,18 @@ public class Employees {
                 ", department=" + department +
                 ", hobbies=" + hobbies +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employees employees = (Employees) o;
+        return workExp == employees.workExp && salary == employees.salary && Objects.equals(id, employees.id) && Objects.equals(name, employees.name) && Objects.equals(surname, employees.surname) && Objects.equals(department, employees.department) && Objects.equals(hobbies, employees.hobbies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, workExp, salary, department, hobbies);
     }
 }

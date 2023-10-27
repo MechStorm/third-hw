@@ -38,7 +38,8 @@ public class HobbyController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteHobby(@PathVariable Long id) {
+    public String deleteHobby(@PathVariable Long id) {
         hobbyService.delete(id);
+        return "Success delete hobby with id " + id;
     }
 }

@@ -1,5 +1,7 @@
 package com.ivan.third_homework.dto;
 
+import java.util.Objects;
+
 public class EmployeeDTONew {
     private String name;
     private String surname;
@@ -67,5 +69,18 @@ public class EmployeeDTONew {
                 ", salary=" + salary +
                 ", departmentId=" + departmentId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeeDTONew that = (EmployeeDTONew) o;
+        return workExp == that.workExp && salary == that.salary && Objects.equals(name, that.name) && Objects.equals(surname, that.surname) && Objects.equals(departmentId, that.departmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, workExp, salary, departmentId);
     }
 }

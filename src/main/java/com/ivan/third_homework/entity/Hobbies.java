@@ -2,6 +2,8 @@ package com.ivan.third_homework.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "hobbies")
 public class Hobbies {
@@ -46,5 +48,18 @@ public class Hobbies {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hobbies hobbies = (Hobbies) o;
+        return Objects.equals(id, hobbies.id) && Objects.equals(name, hobbies.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

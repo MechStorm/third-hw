@@ -1,5 +1,7 @@
 package com.ivan.third_homework.dto;
 
+import java.util.Objects;
+
 public class HobbyDTO {
     private Long id;
     private String name;
@@ -34,5 +36,18 @@ public class HobbyDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HobbyDTO hobbyDTO = (HobbyDTO) o;
+        return Objects.equals(id, hobbyDTO.id) && Objects.equals(name, hobbyDTO.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
