@@ -4,7 +4,7 @@ create table if not exists department
     name         varchar(50) not null,
     phone_number int,
     email        varchar(50) not null,
-    years_works  int
+    year_works  int
 );
 
 create table if not exists employees
@@ -13,7 +13,7 @@ create table if not exists employees
     name            varchar(30) not null,
     surname         varchar(50) not null,
     salary          int         not null,
-    work_experience int,
+    work_exp int,
     department_id   int         not null,
     foreign key (department_id) references department (id)
 );
